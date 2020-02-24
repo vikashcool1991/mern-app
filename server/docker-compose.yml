@@ -1,0 +1,32 @@
+version: "2"
+services:
+  app:
+    container_name: app
+    # restart: always
+    build: .
+    # command: nodemon --ignore swagger/swagger.json -e html,js,json index.js
+    volumes:
+      - .:/app
+    # ports: 
+    #   - "3000:3000"
+    links:
+      - mongo
+  
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo
+    ports:
+      - "27019:27017"
+    command: mongod --port 27019 --bind_ip_all
+
+  # nginx:
+  #   container_name: nginx
+  #   restart: always
+  #   build: ./nginx
+  #   volumes:
+  #     - ./nginx/sites-enabled/:/etc/nginx/sites-enabled
+  #   ports:
+  #     - "80:80"
+  #   links:
+  #     - app:app

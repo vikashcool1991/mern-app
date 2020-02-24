@@ -1,0 +1,51 @@
+{
+  "name": "conviva",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "express": "^4.16.3",
+    "http-errors": "^1.7.3",
+    "jade": "^1.11.0",
+    "lodash": "^4.17.14",
+    "moment": "^2.24.0",
+    "mongodb": "^3.2.7",
+    "mongodb-memory-server": "^6.2.4",
+    "mongoose": "^5.9.2",
+    "morgan": "^1.9.1",
+    "swagger-ui-express": "^3.0.10",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-react": "^7.10.0",
+    "mocha": "^6.2.2",
+    "mocha-cli": "^1.0.1",
+    "mocha-junit-reporter": "^1.23.3",
+    "moxios": "^0.4.0",
+    "nyc": "^14.1.1",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "pretest": "eslint .",
+    "start-dev": "NODE_ENV=dev nodemon app.js",
+    "start-debug": "NODE_ENV=dev DEBUG=express:* nodemon app.js",
+    "start-prod": "NODE_ENV=prod node app.js",
+    "test-jenkins": "NODE_ENV=test mocha --delay=true --reporter mocha-junit-reporter --exit",
+    "test": "NODE_ENV=test mocha --delay=true --exit",
+    "coverage": "npm run test-jenkins && DEBUG=nyc* NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --delay=true --exit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
