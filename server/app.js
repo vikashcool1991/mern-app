@@ -1,11 +1,13 @@
 const createError = require('http-errors');
 const path = require('path');
+const cors = require('cors');
 const _ = require('lodash');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { connect: MongoConnection } = require('./utils/db');
 const { createCustomers } = require('./utils/seed');
+const corsOptions = require('./config/cors');
 
 (async () => {
   await MongoConnection();
@@ -35,7 +37,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/v1', routes.v1);
+app.options('/api/v1', cors(corsOptions));
+app.use('/api/v1', cors(corsOptions), routes.v1);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

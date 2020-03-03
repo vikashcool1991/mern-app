@@ -6,6 +6,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.16.3",
     "http-errors": "^1.7.3",
@@ -38,9 +39,9 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "start-dev": "NODE_ENV=dev nodemon app.js",
-    "start-debug": "NODE_ENV=dev DEBUG=express:* nodemon app.js",
-    "start-prod": "NODE_ENV=prod node app.js",
+    "dev": "NODE_ENV=dev nodemon app.js",
+    "debug": "NODE_ENV=dev DEBUG=express:* nodemon app.js",
+    "prod": "NODE_ENV=prod node app.js",
     "test-jenkins": "NODE_ENV=test mocha --delay=true --reporter mocha-junit-reporter --exit",
     "test": "NODE_ENV=test mocha --delay=true --exit",
     "coverage": "npm run test-jenkins && DEBUG=nyc* NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --delay=true --exit"

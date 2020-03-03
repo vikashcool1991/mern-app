@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const MongoMemoryServer = require('mongodb-memory-server').default;
 
-let MONGO_URL = 'mongodb://mongo:27019/conviva';
+let MONGO_URL = 'mongodb://localhost:27017/sample';
+// let MONGO_URL = 'mongodb://mongo:27019/sample';
 const label = { label: path.basename(__filename) };
 
 module.exports = {
@@ -12,7 +13,7 @@ module.exports = {
         const mongoServer = new MongoMemoryServer({
           instance: {
             port: 27019,
-            dbName: 'conviva',
+            dbName: 'sample',
           },
         });
         MONGO_URL = await mongoServer.getConnectionString();
