@@ -2,8 +2,10 @@ const express = require('express');
 const {
   getCustomers, createCustomers, updateCustomers, deleteCustomers,
 } = require('../../controllers/customers');
+const swaggerApiDoc = require('../../config/swagger');
 
 const router = express.Router();
+swaggerApiDoc(router);
 
 /*
 ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗███████╗██████╗      █████╗ ██████╗ ██╗    ██████╗  ██████╗ ██╗   ██╗████████╗███████╗███████╗

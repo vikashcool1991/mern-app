@@ -1,5 +1,5 @@
 {
-  "name": "conviva",
+  "name": "mern-app",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -17,6 +17,7 @@
     "mongodb-memory-server": "^6.2.4",
     "mongoose": "^5.9.2",
     "morgan": "^1.9.1",
+    "swagger-jsdoc": "^3.5.0",
     "swagger-ui-express": "^3.0.10",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"
@@ -39,9 +40,9 @@
   },
   "scripts": {
     "pretest": "eslint .",
-    "dev": "NODE_ENV=dev nodemon app.js",
-    "debug": "NODE_ENV=dev DEBUG=express:* nodemon app.js",
-    "prod": "NODE_ENV=prod node app.js",
+    "dev": "NODE_ENV=dev nodemon bin/www",
+    "debug": "NODE_ENV=dev DEBUG=express:* nodemon bin/www",
+    "prod": "NODE_ENV=prod node bin/www",
     "test-jenkins": "NODE_ENV=test mocha --delay=true --reporter mocha-junit-reporter --exit",
     "test": "NODE_ENV=test mocha --delay=true --exit",
     "coverage": "npm run test-jenkins && DEBUG=nyc* NODE_ENV=test nyc --reporter=text --reporter=lcov mocha --delay=true --exit"

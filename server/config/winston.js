@@ -1,6 +1,9 @@
+const morgan = require('morgan');
 const path = require('path');
 const winston = require('winston');
 require('winston-daily-rotate-file');
+
+const label = { label: path.basename(__filename) };
 
 const {
   format,
@@ -13,11 +16,11 @@ const {
 
 const logRoot = process.cwd();
 
-const LOGDIRECTORY = 'log';
+const LOGDIRECTORY = 'log-files';
 const LOGDIRECTORYROOT = path.join(logRoot, LOGDIRECTORY);
 
 const dailyRotateFileTransport = new winston.transports.DailyRotateFile({
-  filename: `${LOGDIRECTORYROOT}/%DATE%-conviva.log`,
+  filename: `${LOGDIRECTORYROOT}/%DATE%-mern.log`,
   datePattern: 'YYYY-MM-DD',
 });
 
@@ -34,7 +37,7 @@ const logger = winston.createLogger({
       prettyPrint: true,
     }),
     new winston.transports.File({
-      filename: path.join(LOGDIRECTORYROOT, 'conviva.log'),
+      filename: path.join(LOGDIRECTORYROOT, 'mern.log'),
       prettyPrint: false,
       maxsize: 5242880, // 5MB
       dailyRotateFileTransport,
@@ -54,4 +57,16 @@ const logger = winston.createLogger({
   exitOnError: false,
 });
 
-module.exports = logger;
+logger.stream = {
+  write(message) {
+    logger.info(message, label);
+  },
+};
+
+global.logger = logger;
+
+function apiEndpointLogger(app) {
+  app.use(morgan(':remote-addr - :remote-user ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"', { stream: logger.stream }));
+}
+
+module.exports = apiEndpointLogger;
