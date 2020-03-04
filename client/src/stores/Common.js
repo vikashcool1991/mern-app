@@ -1,29 +1,29 @@
-import { observable, action, reaction } from 'mobx';
-// import axios from 'axios';
+import { observable, action, computed } from 'mobx';
+import { get } from 'axios';
 
 export default class Common {
   @observable title;
 
-  @observable appLoaded = true;
+  @observable data;
 
-  @observable token = window.localStorage.getItem('jwt');
+  @observable appLoaded = true;
 
   constructor() {
     this.title = 'My App';
-    reaction(
-      () => this.token,
-      token => {
-        if (token) {
-          window.localStorage.setItem('jwt', token);
-        } else {
-          window.localStorage.removeItem('jwt');
-        }
-      },
-    );
+    this.data = [];
+    this.getData();
   }
 
-  @action setToken(token) {
-    this.token = token;
+  @action getData() {
+    get('http://localhost:3000/api/v1/customers').then(data => {
+      // eslint-disable-next-line no-console
+      // console.log(data.data.data);
+      this.data.replace(data.data.data);
+    });
+  }
+
+  @computed get datas() {
+    return this.data.slice();
   }
 
   @action setTitle(title) {

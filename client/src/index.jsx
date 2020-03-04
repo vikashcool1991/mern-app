@@ -7,6 +7,7 @@ import { rehydrate, hotRehydrate } from 'rfx-core';
 import registerServiceWorker from './registerServiceWorker';
 import App from './App.jsx';
 import stores from './stores/index';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = rehydrate() || stores;
 const isProduction = process.env.NODE_ENV === 'production';

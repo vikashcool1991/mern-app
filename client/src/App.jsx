@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 import HelloWorld from './components/hello-world';
 import Home from './components/home';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const style = {
   borderRadius: '50%',
