@@ -13,7 +13,7 @@ chai.should();
 chai.use(chaiHttp);
 
 setTimeout(() => {
-  describe('Conviva tests.', () => {
+  describe('Mern tests.', () => {
     before(async () => {
       logger.info('Inside BeforeAll hook.', label);
     });
