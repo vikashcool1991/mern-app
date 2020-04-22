@@ -10,6 +10,7 @@ const path = require('path');
 // const debug = require('debug')('sampleapp:server');
 require('../config/winston');
 const app = require('../app');
+const chatApp = require('../service/chat');
 
 const label = { label: path.basename(__filename) };
 
@@ -38,7 +39,7 @@ function normalizePort(val) {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
@@ -46,6 +47,7 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+chatApp(server);
 
 /**
  * Event listener for HTTP server "error" event.

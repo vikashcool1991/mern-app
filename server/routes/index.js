@@ -16,8 +16,9 @@ function routeHandler(app) {
         /* eslint-disable import/no-dynamic-require */
         // eslint-disable-next-line global-require
         const router = require(`./${content}/index.js`);
-        app.options(`/api/${content}`, cors(corsOptions));
-        app.use(`/api/${content}`, cors(corsOptions), router);
+        // app.options(`/api/${content}`, cors(corsOptions));
+        // app.use(`/api/${content}`, cors(corsOptions), router);
+        app.use(`/api/${content}`, router);
       }
     });
     // catch 404 and forward to error handler

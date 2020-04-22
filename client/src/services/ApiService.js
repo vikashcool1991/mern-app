@@ -1,5 +1,6 @@
 import api from '../api';
-import StorageService from './StorageService'
+import axios from 'axios';
+import StorageService from './StorageService';
 
 /**
  * Service to abstract api calls to one file - to be used in middleware
@@ -8,7 +9,8 @@ class ApiSerice {
 
 
     constructor() {
-        this.api_url = 'http://127.0.0.1:8000';
+        this.api_url = 'http://127.0.0.1:3001';
+        axios.defaults.baseURL = "http://localhost:3001";
     }
 
     /**
@@ -20,9 +22,14 @@ class ApiSerice {
      */
     async apiCall(url, method = 'GET', token = false, params = null) {
         let payload = {
+            credentials: 'same-origin',
             method,
             mode: 'cors',
-            headers: this.buildHeaders(token),
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }//this.buildHeaders(token),
         }
         if (params) {
             payload.body = JSON.stringify(params);
@@ -31,20 +38,6 @@ class ApiSerice {
         const status = res.status;
         const body = await res.json();
         return { status, body };
-    }
-
-    /**
-     * Build  http headers object
-     * @param {string|boolean} token 
-     */
-    buildHeaders(token = false) {
-        let headers = new Headers();
-        headers.append('Content-type', 'application/json');
-        if (token) {
-            headers.append('Authorization', `Token ${token}`);
-        }
-
-        return headers;
     }
 
     /**
@@ -64,18 +57,30 @@ class ApiSerice {
     }   
 
     async register(params) { //registration
-        const reg = await this.apiCall(api.sign_up, 'POST', false, params);
-        return reg;
+        // const reg = await this.apiCall(api.sign_up, 'POST', false, params);
+        const headers = {
+            'Content-type': 'application/json'
+        };
+        const res = await axios.post(api.sign_up, params, {headers: headers});
+        this.handleCommonError(res);
+        return res.data;
     }
 
     async login(params) { //login
-        const res = await this.apiCall(api.login, 'POST', false, params);
+        const headers = {
+            'Content-type': 'application/json'
+        };
+        const res = await axios.post(api.login, params, {headers: headers});
         this.handleCommonError(res);
-        return res.body;
+        return res.data;
     }
 
     async logout(token) { //login
-        const res = await this.apiCall(api.logout, 'POST', false, null, token);
+        const headers = {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+        const res = await axios.post(api.logout, {}, {headers: headers});
         return res.status;
     }
 

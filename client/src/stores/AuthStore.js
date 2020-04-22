@@ -5,7 +5,7 @@ import history from '../services/history'
 import routes from '../routes'
 
 class AuthStore {
-    @observable isAuthenticated = false
+    @observable isAuthenticated = !!StorageService.getToken()
     @observable isLoading = true
     @observable isFailure = false
     @observable currentUser = null
@@ -13,10 +13,10 @@ class AuthStore {
 
     @action async login(params) {
         try {
-            const res = await ApiService.login(params)
-            StorageService.setToken(res.key)
+            const res = await ApiService.login(params);
+            StorageService.setToken(res.data.user.token);
             runInAction(() => {
-                this.isAuthenticated = true
+                this.isAuthenticated = true;
                 this.isFailure = false
                 this.isLoading = false
             })
@@ -30,14 +30,14 @@ class AuthStore {
     }
 
     @action async logout() {
-        await ApiService.logout(StorageService.getToken())
-        StorageService.removeToken()
+        await ApiService.logout(StorageService.getToken());
+        StorageService.removeToken();
         runInAction(() => {
-            this.isAuthenticated = false
-            this.isFailure = false
-            this.currentUser = null
-            this.isLoading = false
-            history.push('/')
+            this.isAuthenticated = false;
+            this.isFailure = false;
+            this.currentUser = null;
+            this.isLoading = false;
+            history.push('/');
         })
     }
 

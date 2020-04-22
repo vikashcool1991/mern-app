@@ -1,35 +1,37 @@
 import React, { Component } from 'react'
+import { Router, Switch, Route } from 'react-router'
+import history from './services/history'
 import { observer, inject } from 'mobx-react'
-// import { Redirect } from 'react-router'
-// import routes from './routes'
-import Header from './components/Header'
-import PersistentDrawerLeft from './components/Drawer'
-// import logo from './logo.svg'
-import './styles/style.css'
+import routes from './routes'
+import SignUpSignInForm  from './components/SignupSignIn/form';
+import Navbar from './components/NavBar/nav';
 
 @inject('authStore') @observer
 class App extends Component {
 
     async componentDidMount() {
-        await this.props.authStore.fetchProfile()
-    }
-
-    logoutHandler = async () => {
-        await this.props.authStore.logout()
+        // await this.props.authStore.fetchProfile();
     }
 
     render() {
-        console.log('render app')
-        const authStore = this.props.authStore
-        if (authStore.isLoading) {
-            // loading state
-            return <p>Loading...</p>
+        const authStore = this.props.authStore;
+        if(authStore.isAuthenticated){
+            return (
+                <div>
+                    <Navbar>
+                        <Router history={history}>
+                            <Switch>
+                                {/* <Route exact={true} path={routes.home} component={Navbar}></Route> */}
+                                {/* <Route path={routes.login} component={SignUpSignInForm}></Route> */}
+                            </Switch>
+                        </Router>
+                    </Navbar>
+                </div>
+            );
         }
         return (
             <main>
-                <PersistentDrawerLeft/>
-                {authStore.currentUser && <Header current_user={authStore.currentUser} logout={this.logoutHandler} />}
-                {this.props.children}
+                <SignUpSignInForm/>
             </main>
         );
     }

@@ -2,10 +2,28 @@ const express = require('express');
 const {
   getCustomers, createCustomers, updateCustomers, deleteCustomers,
 } = require('../../controllers/customers');
+const { signup, login, logout } = require('../../controllers/users');
+const {
+  isLoggedIn,
+  isAuthorized,
+} = require('../../config/middleware');
 const swaggerApiDoc = require('../../config/swagger');
 
 const router = express.Router();
 swaggerApiDoc(router);
+
+/*
+██╗   ██╗███████╗███████╗██████╗      █████╗ ██████╗ ██╗    ██████╗  ██████╗ ██╗   ██╗████████╗███████╗███████╗
+██║   ██║██╔════╝██╔════╝██╔══██╗    ██╔══██╗██╔══██╗██║    ██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██╔════╝██╔════╝
+██║   ██║███████╗█████╗  ██████╔╝    ███████║██████╔╝██║    ██████╔╝██║   ██║██║   ██║   ██║   █████╗  ███████╗
+██║   ██║╚════██║██╔══╝  ██╔══██╗    ██╔══██║██╔═══╝ ██║    ██╔══██╗██║   ██║██║   ██║   ██║   ██╔══╝  ╚════██║
+╚██████╔╝███████║███████╗██║  ██║    ██║  ██║██║     ██║    ██║  ██║╚██████╔╝╚██████╔╝   ██║   ███████╗███████║
+ ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚══════╝
+*/
+router.post('/auth/signup', signup);
+router.post('/auth/login', login);
+router.post('/auth/logout', isLoggedIn, logout);
+
 
 /*
 ██████╗██╗   ██╗███████╗████████╗ ██████╗ ███╗   ███╗███████╗██████╗      █████╗ ██████╗ ██╗    ██████╗  ██████╗ ██╗   ██╗████████╗███████╗███████╗
@@ -16,10 +34,10 @@ swaggerApiDoc(router);
  ╚═════╝ ╚═════╝ ╚══════╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝     ╚═╝    ╚═╝  ╚═╝ ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚══════╝
 */
 
-router.get('/customers/:id?', getCustomers);
-router.post('/customers', createCustomers);
-router.put('/customers/:id', updateCustomers);
-router.delete('/customers/:id', deleteCustomers);
+router.get('/customers/:id?', isLoggedIn, isAuthorized, getCustomers);
+router.post('/customers', isLoggedIn, isAuthorized, createCustomers);
+router.put('/customers/:id', isLoggedIn, isAuthorized, updateCustomers);
+router.delete('/customers/:id', isLoggedIn, isAuthorized, deleteCustomers);
 
 
 /*
