@@ -1,11 +1,21 @@
-const routes = {
-    login: '/login',
-    user_details: '/user/:id',
-    user_edit: '/user/:id/edit',
-    users: '/users',
-    topics: '/todos/:userId',
-    topic_edit: '/todo/:id/edit',
-    home: '/home',
-}
+import React from "react";
+import Dashboard from "./components/Dashboard/dash";
+import Chat from "./components/ChatBox/chat";
+
+const routes = [
+    {
+      path: "/dashboard",
+      exact: true,
+      main: () => <Dashboard/>
+    },
+    {
+      path: "/chat",
+      main: () => <Chat/>
+    },
+    {
+      path: "/shoelaces",
+      main: () => <h2>Shoelaces</h2>
+    }
+  ]
 
 export default routes;

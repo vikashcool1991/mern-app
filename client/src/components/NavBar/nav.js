@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
+import { Route, Link, Switch} from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
-import { faSearch, faBell, faUser, faBook, faFileVideo, faVolleyballBall, faBlog, faLeaf, faPowerOff, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { 
+    faSearch,
+    faBell, 
+    faUser, 
+    faVolleyballBall, faBlog, faLeaf, faSignOutAlt,
+    faChartBar,
+    faCommentDots
+ } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './style.css';
+import routes from '../../routes';
 
 @inject('authStore') 
 @inject('registerStore') 
@@ -36,60 +45,59 @@ class Navbar extends Component {
                     <div className="top_menu">
                         <div className="logo">Coding Market</div>
                         <ul>
-                            <li><a href="#"><FontAwesomeIcon icon={faSearch}/></a></li>
-                            <li><a href="#"><FontAwesomeIcon icon={faBell}/></a></li>
-                            <li><a href="#"><FontAwesomeIcon icon={faUser}/></a></li>
-                            <li><a href="#" onClick={this.handleLogout}><FontAwesomeIcon icon={faSignOutAlt}/></a></li>
+                            <li><a href=""><FontAwesomeIcon icon={faSearch}/></a></li>
+                            <li><a href=""><FontAwesomeIcon icon={faBell}/></a></li>
+                            <li><a href=""><FontAwesomeIcon icon={faUser}/></a></li>
+                            <li><a href="" onClick={this.handleLogout}><FontAwesomeIcon icon={faSignOutAlt}/></a></li>
                         </ul>
                     </div>
                 </div>
                 <div className="sidebar">
                     <ul>
                         <li>
-                            <a href="#">
-                                <span className="icon"><FontAwesomeIcon icon={faBook} aria-hidden='true' /></span>
-                                <span className="title">Books</span>
-                            </a>
+                            <Link to="/dashboard" className="active">
+                                <span className="icon"><FontAwesomeIcon icon={faChartBar} aria-hidden='true' /></span>
+                                <span className="title">Dashboard</span>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#" className="active">
-                                <span className="icon"><FontAwesomeIcon icon={faFileVideo} aria-hidden='true' /></span>
-                                <span className="title">Movies</span>
-                            </a>
+                            <Link to="/chat">
+                                <span className="icon"><FontAwesomeIcon icon={faCommentDots} aria-hidden='true' /></span>
+                                <span className="title">Chat</span>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link to="">
                                 <span className="icon"><FontAwesomeIcon icon={faVolleyballBall} aria-hidden='true' /></span>
                                 <span className="title">Sports</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link to="">
                                 <span className="icon"><FontAwesomeIcon icon={faBlog} aria-hidden='true' /></span>
                                 <span className="title">Blogs</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#">
+                            <Link to="">
                                 <span className="icon"><FontAwesomeIcon icon={faLeaf} aria-hidden='true' /></span>
                                 <span className="title">Nature</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
                 <div className="main_container">
-                    <div className="item">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut sapiente adipisci nemo atque eligendi reprehenderit minima blanditiis eum quae aspernatur!
-                    </div>
-                    <div className="item">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut sapiente adipisci nemo atque eligendi reprehenderit minima blanditiis eum quae aspernatur!
-                    </div>
-                    <div className="item">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut sapiente adipisci nemo atque eligendi reprehenderit minima blanditiis eum quae aspernatur!
-                    </div>
-                    <div className="item">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut sapiente adipisci nemo atque eligendi reprehenderit minima blanditiis eum quae aspernatur!
-                    </div>
+                    <Switch>
+                        {
+                            routes.map((route,index)=> (
+                                <Route key={index}
+                                    path={route.path}
+                                    exact={route.exact}
+                                    children={<route.main />}
+                                />
+                            ))
+                        }
+                    </Switch>                    
                 </div>
             </div>
         );

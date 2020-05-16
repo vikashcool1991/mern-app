@@ -1,8 +1,6 @@
-import React, { Component } from 'react'
-import { Router, Switch, Route } from 'react-router'
-import history from './services/history'
-import { observer, inject } from 'mobx-react'
-import routes from './routes'
+import React, { Component } from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 import SignUpSignInForm  from './components/SignupSignIn/form';
 import Navbar from './components/NavBar/nav';
 
@@ -17,16 +15,9 @@ class App extends Component {
         const authStore = this.props.authStore;
         if(authStore.isAuthenticated){
             return (
-                <div>
-                    <Navbar>
-                        <Router history={history}>
-                            <Switch>
-                                {/* <Route exact={true} path={routes.home} component={Navbar}></Route> */}
-                                {/* <Route path={routes.login} component={SignUpSignInForm}></Route> */}
-                            </Switch>
-                        </Router>
-                    </Navbar>
-                </div>
+                <Router>
+                    <Navbar />
+                </Router>
             );
         }
         return (
